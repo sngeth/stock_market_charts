@@ -1,18 +1,20 @@
 class HomeController < ApplicationController
   def index
-    #puts plot_chart
   end
 
   def search
     @symbol = params[:symbol]
     @duration = params[:duration] || 30
+    @stock_data = get_stock_data.as_json.html_safe
 
-    head :no_content
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
 
-  def plot_chart
+  def get_stock_data
     HTTParty.get("http://dev.markitondemand.com/Api/v2/InteractiveChart/json?parameters=#{api_params}")
   end
 
