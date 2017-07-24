@@ -7,3 +7,5 @@
 <% end %>
 
 <ul id="stocks"></ul>
+
+<%= line_chart @stocks.group(:symbol).group_by_day(:date, default_value: nil).average(:close_price), min: Stock.minimum(:close_price), max: Stock.maximum(:close_price), library: { plotOptions:{series:{connectNulls: true}}} %>
